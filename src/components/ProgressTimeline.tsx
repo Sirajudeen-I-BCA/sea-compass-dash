@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Clock, MapPin } from "lucide-react";
+import { CheckCircle, Clock, MapPin, Ship, Truck } from "lucide-react";
 
 // Hard-coded progress data
 const progressData = [
@@ -68,8 +68,13 @@ export const ProgressTimeline = () => {
                   </div>
                   <Badge 
                     variant={item.completed ? "secondary" : item.current ? "default" : "outline"}
-                    className="text-xs"
+                    className="text-xs flex items-center gap-1"
                   >
+                    {item.routeType === "SEA" ? (
+                      <Ship className="h-3 w-3" />
+                    ) : (
+                      <Truck className="h-3 w-3" />
+                    )}
                     {item.routeType}
                   </Badge>
                 </div>

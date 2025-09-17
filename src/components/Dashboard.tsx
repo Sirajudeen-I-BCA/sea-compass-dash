@@ -13,10 +13,11 @@ const shipmentData = {
   nextMilestone: "Customs Clearance"
 };
 
-const facilityData = {
-  name: "Port of New York",
-  locode: "USNYC"
-};
+const facilityData = [
+  { name: "Empezar Global Marine Service Private Limited", locode: "" },
+  { name: "Nhava Sheva (India) Gateway Terminal Pvt Ltd", locode: "" },
+  { name: "Port Liberty New York", locode: "USNYC" }
+];
 
 const vesselData = {
   name: "CMA CGM BIANCA",
@@ -32,10 +33,19 @@ const positionData = {
 };
 
 const environmentData = {
-  windSpeed: "15 knots",
-  temperature: "22°C",
-  speedRange: "12-18 knots",
-  draught: "14.2m"
+  windSpeed: {
+    avg: "12 knots",
+    max: "30.9 knots"
+  },
+  temperature: {
+    min: "18.8°C / 65.84°F",
+    max: "25.3°C / 77.54°F"
+  },
+  speedRange: {
+    avg: "12.2 Knots",
+    max: "18.4 Knots"
+  },
+  draught: "12.8 m"
 };
 
 const specificationsData = {
@@ -94,19 +104,21 @@ const Dashboard = () => {
           <CardHeader className="pb-3">
             <CardTitle className="flex items-center gap-2 text-primary text-base">
               <Anchor className="h-4 w-4" />
-              Facility
+              Facilities
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div>
-              <p className="text-xs text-muted-foreground">Facility Name</p>
-              <p className="font-semibold text-sm">{facilityData.name}</p>
-            </div>
-            <div className="mt-3">
-              <p className="text-xs text-muted-foreground">LOCODE</p>
-              <Badge variant="secondary" className="text-xs">
-                {facilityData.locode}
-              </Badge>
+            <div className="space-y-3">
+              {facilityData.map((facility, index) => (
+                <div key={index} className="border-b border-maritime-border last:border-b-0 pb-2 last:pb-0">
+                  <p className="text-xs font-medium mb-1">{facility.name}</p>
+                  {facility.locode && (
+                    <Badge variant="secondary" className="text-xs">
+                      {facility.locode}
+                    </Badge>
+                  )}
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>
@@ -175,32 +187,40 @@ const Dashboard = () => {
               Environment Data
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-1">
+          <CardContent className="space-y-4">
+            <div>
+              <div className="flex items-center gap-1 mb-2">
                 <Wind className="h-3 w-3" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Wind Speed</p>
-                  <p className="text-sm">{environmentData.windSpeed}</p>
-                </div>
+                <p className="text-xs text-muted-foreground font-medium">Wind Speed</p>
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Temperature</p>
-                <p className="text-sm">{environmentData.temperature}</p>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Avg: <span className="text-foreground">{environmentData.windSpeed.avg}</span></p>
+                <p className="text-xs text-muted-foreground">Max: <span className="text-foreground">{environmentData.windSpeed.max}</span></p>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex items-center gap-1">
+            
+            <div>
+              <p className="text-xs text-muted-foreground font-medium mb-2">Temperature</p>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Min: <span className="text-foreground">{environmentData.temperature.min}</span></p>
+                <p className="text-xs text-muted-foreground">Max: <span className="text-foreground">{environmentData.temperature.max}</span></p>
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex items-center gap-1 mb-2">
                 <Gauge className="h-3 w-3" />
-                <div>
-                  <p className="text-xs text-muted-foreground">Speed Range</p>
-                  <p className="text-sm">{environmentData.speedRange}</p>
-                </div>
+                <p className="text-xs text-muted-foreground font-medium">Speed Range</p>
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground">Draught</p>
-                <p className="text-sm">{environmentData.draught}</p>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Avg: <span className="text-foreground">{environmentData.speedRange.avg}</span></p>
+                <p className="text-xs text-muted-foreground">Max: <span className="text-foreground">{environmentData.speedRange.max}</span></p>
               </div>
+            </div>
+            
+            <div>
+              <p className="text-xs text-muted-foreground font-medium">Draught</p>
+              <p className="text-sm font-medium">{environmentData.draught}</p>
             </div>
           </CardContent>
         </Card>
